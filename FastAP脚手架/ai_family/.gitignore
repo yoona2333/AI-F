@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# 本地密钥和环境文件
+.env
+
+# Vue
+vue/node_modules/
+vue/dist/
+
+# IDE
+.idea/
+.vscode/
+
+# 上传文件只保留目录
+files/*
+!files/.gitkeep

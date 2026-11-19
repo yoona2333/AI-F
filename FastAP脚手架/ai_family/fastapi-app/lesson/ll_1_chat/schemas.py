@@ -2,6 +2,7 @@ from pydantic import BaseModel, Field, field_validator
 
 class SyncChatRequest(BaseModel):
 
+    #用来定义字段并检查传入的数据，请求对象规定页面能提交什么，响应对象规定后端会返回什么
     question:str=Field(min_length=1, max_length=2000)
     temperature:float=Field(ge=0, le=1.9)
     topP:float=Field(ge=0.1, le=1)
@@ -15,13 +16,18 @@ class SyncChatRequest(BaseModel):
         return value
 
 
+#定义大模型回答之后的响应对象，包括回答内容、模型名、参数和结束原因
 class SyncChatResponse(BaseModel):
     answer:str
     modelName:str
     temperature:float
+    #topP 是累计概率阈值，用于控制输出的多样性。只在最有把握的那批词里选，占到总概率 90% 就够，剩下 10% 的长尾全部拉黑。
     topP:float
     maxTokens:int
     finishReason:str
+
+
+
 
 
 
