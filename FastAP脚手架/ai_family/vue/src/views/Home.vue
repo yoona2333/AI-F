@@ -1,97 +1,79 @@
 <template>
   <div class="home-page">
-    <section class="intro-panel">
-      <h2>AI 大模型应用开发全家桶</h2>
-      <p>
-        使用 {{ backendName }} 从零学习大模型应用开发，通过可以直接运行的示例，依次掌握基础调用、RAG、工作流、Agent 与 MCP。
-      </p>
-      <div class="course-route" aria-label="课程学习路线">
-        <template v-for="(item, index) in courseRoute" :key="item">
-          <span>{{ item }}</span>
-          <i v-if="index < courseRoute.length - 1">→</i>
-        </template>
-      </div>
-    </section>
-
-    <section class="content-panel">
-      <div class="section-heading">
-        <div>
-          <h3>技术栈与学习路线</h3>
-          <p>当前项目使用的核心技术及其在课程中的作用。</p>
-        </div>
-        <el-tag effect="plain">{{ courseEdition }}</el-tag>
-      </div>
-
-      <div class="table-wrap">
-        <table class="tech-table">
-          <thead>
-            <tr>
-              <th>层级</th>
-              <th>技术选型</th>
-              <th>版本</th>
-              <th>课程用途</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="item in techStack" :key="item.name">
-              <td>{{ item.layer }}</td>
-              <td class="tech-name">{{ item.name }}</td>
-              <td><code>{{ item.version }}</code></td>
-              <td>{{ item.purpose }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <div class="info-grid">
-      <section class="content-panel">
-        <div class="section-heading">
-          <div>
-            <h3>关于作者</h3>
-            <p>课程内容与示例代码由作者持续维护。</p>
-          </div>
-        </div>
-        <div class="author-info">
-          <div class="author-avatar">武</div>
-          <div>
-            <strong>武哥聊编程</strong>
-            <p>专注 Java、Python 与 AI 大模型应用开发，持续分享从技术入门到项目落地的实战内容。</p>
-            <span>AIGC编程网</span>
-          </div>
-        </div>
-      </section>
-
-      <section class="content-panel practice-panel">
-        <div class="section-heading">
-          <div>
-            <h3>进一步学习</h3>
-            <p>AIGC编程网 · AI 实战库</p>
-          </div>
-        </div>
-        <p class="practice-copy">
-          本课程用于建立完整的技术认知和入门能力。如果你希望继续学习真实业务场景、工程化设计和企业级项目，可以进入 AI 实战库。
+    <section class="hero">
+      <div class="hero-main">
+        <span class="eyebrow">{{ courseEdition }}</span>
+        <h1></h1>
+        <p class="hero-lede">
+          从一次同步对话开始，逐章加上工具调用、检索、流程编排与 Agent，
+          最后用 MCP 把能力交给其他系统。每一步都有可以直接运行的练习。
         </p>
-        <a
-          class="practice-link"
-          href="https://aigcbaba.com/ai-project"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          查看 AI 实战库
-          <span>→</span>
-        </a>
-      </section>
-    </div>
+        <router-link v-if="firstLesson" class="hero-cta" :to="firstLesson.path">
+          从 {{ firstLesson.chapter }}-{{ firstLesson.section }} 开始
+          <span class="arrow">→</span>
+        </router-link>
+      </div>
+
+      <nav class="hero-route" aria-label="学习路线">
+        <div class="route-head">
+          <span class="eyebrow">学习路线</span>
+        </div>
+        <ol class="route">
+          <li v-for="chapter in lessonMenus" :key="chapter.chapter">
+            <span class="no">{{ pad(chapter.chapter) }}</span>
+            <span class="name">{{ chapter.title }}</span>
+            <span class="state mono" :class="{ pending: !chapter.lessons.length }">
+              {{ chapter.lessons.length ? `${chapter.lessons.length} 节` : '待更新' }}
+            </span>
+          </li>
+        </ol>
+      </nav>
+    </section>
+
+    <section class="datasheet">
+      <header class="datasheet-head">
+        <div>
+          <span class="eyebrow">技术栈</span>
+          <h2></h2>
+        </div>
+        <span class="datasheet-count">{{ techStack.length }} 项依赖</span>
+      </header>
+
+      <table class="tech-table">
+        <thead>
+          <tr>
+            <th class="col-layer">Layer</th>
+            <th class="col-name">Tech</th>
+            <th class="col-version">Version</th>
+            <th class="col-purpose">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="item in techStack" :key="item.name">
+            <td class="col-layer">{{ item.layer }}</td>
+            <td class="col-name">{{ item.name }}</td>
+            <td class="col-version"><code>{{ item.version }}</code></td>
+            <td class="col-purpose">{{ item.purpose }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
   </div>
 </template>
 
 <script setup>
+import { computed } from 'vue'
+import { lessonMenus } from '@/router/lessonRegistry.js'
+
 const courseEdition = import.meta.env.VITE_COURSE_EDITION
 const backendName = import.meta.env.VITE_BACKEND_NAME
 const isSpringBoot = backendName === 'Spring Boot'
 
-const courseRoute = ['大模型基础', 'Tool Calling', 'RAG 检索', '工作流', 'Agent', 'MCP']
+// 编号补零，让 01 与 10 在等宽字体下等宽
+const pad = value => String(value).padStart(2, '0')
+
+// 首页主按钮直接指向第一个可进入的练习，没有练习时不渲染按钮
+const firstLesson = computed(() => lessonMenus.flatMap(chapter => chapter.lessons)[0] || null)
 
 const commonStack = [
   { layer: '前端', name: 'Vue', version: '3.5.43', purpose: '课程页面与交互实现' },

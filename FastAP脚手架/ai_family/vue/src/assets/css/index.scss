@@ -1,7 +1,10 @@
+// Element Plus 主题色覆盖。
+// 与 global.css 中的设计令牌保持一致：主色取深柴油绿，信号色只留给品牌强调，
+// 避免组件库默认的亮蓝破坏「模型试验台」的整体调性。
 @forward "element-plus/theme-chalk/src/common/var.scss" with ($colors: (
-  "primary": ("base": #3478e5),
-  "success": ("base": #52c41a),
-  "warning": ("base": #faad14),
-  "danger": ("base": #ff4d4f),
-  "info": ("base": #909399),
+  "primary": ("base": #1d4c60),
+  "success": ("base": #2a7150),
+  "warning": ("base": #9a6e15),
+  "danger": ("base": #b23a24),
+  "info": ("base": #737c84),
 ));

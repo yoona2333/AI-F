@@ -1,10 +1,4 @@
-"""自动发现课程代码。
 
-启动时扫描 api 和 lesson 目录下的全部 .py 文件：
-- 模块里有名为 router 的 APIRouter，自动注册接口；
-- 模块里定义了 Tortoise 模型，自动注册到数据库。
-新增一节课只需要新建文件，不需要修改 main.py 和 database.py。
-"""
 import importlib
 from functools import lru_cache
 from pathlib import Path

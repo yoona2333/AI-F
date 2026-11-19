@@ -16,7 +16,7 @@ class Settings(BaseSettings):
     file_storage_path: Path = BASE_DIR.parent / "files"
     max_upload_size: int = 20 * 1024 * 1024
 
-    bailian_base_url: str = "https://dashscope.aliyuncs.com/compatible-mode/v1"
+    bailian_base_url: str = "https://dashscope.aliyuncs.com/compatible-mode/v1" #默认的 API 地址，.env没有配置时使用
     bailian_api_key: str = Field(
         default="",
         validation_alias=AliasChoices("DASHSCOPE_API_KEY", "BAILIAN_API_KEY"),

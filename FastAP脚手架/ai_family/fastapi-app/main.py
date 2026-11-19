@@ -16,8 +16,8 @@ app.add_middleware(
     allow_origin_regex=r"http://(localhost|127\.0\.0\.1):\d+",
     allow_methods=["*"],
     allow_headers=["*"],
-    expose_headers=["Content-Disposition"],
-    max_age=3600,
+    expose_headers=["Content-Disposition"],#**默认情况下，浏览器 JS 读不到后端返回的 Content-Disposition 响应头**；这个配置放开它，用于**前端下载文件、获取文件名**
+    max_age=3600, #浏览器缓存预检 OPTIONS 请求的时间，单位秒；这里缓存 1 小时（默认是 600 秒）
 )
 
 for router in discover_routers():

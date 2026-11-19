@@ -1,3 +1,5 @@
+from typing import Any
+
 from pydantic import BaseModel, Field, field_validator
 
 class SyncChatRequest(BaseModel):
@@ -25,6 +27,10 @@ class SyncChatResponse(BaseModel):
     topP:float
     maxTokens:int
     finishReason:str
+    # 本次调用的 token 用量，保持 LangChain 原始结构：
+    # {"input_tokens": 11, "output_tokens": 15, "total_tokens": 26}。
+    # 模型没有返回用量时为 None，页面据此显示占位符而不是 0。
+    usage: dict[str, Any] | None = None
 
 
 

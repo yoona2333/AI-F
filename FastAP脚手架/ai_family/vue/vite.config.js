@@ -35,4 +35,17 @@ export default defineConfig({
       }
     }
   },
+  server: {
+    watch: {
+      // Windows 下编辑器保存文件时先写临时文件再改名，chokidar 会撞上被占用的临时文件，
+      // 抛出 EBUSY 直接让整个 dev server 退出。忽略这类中间产物即可避开。
+      ignored: [
+        '**/node_modules/**',
+        '**/.git/**',
+        '**/.*.tmpdir/**',
+        '**/*.tmp',
+        '**/.~*',
+      ],
+    },
+  },
 })
