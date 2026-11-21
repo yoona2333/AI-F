@@ -3,6 +3,7 @@ from langchain_openai import ChatOpenAI
 from settings import settings
 
 
+
 # 缓存函数成功返回的对象；函数无参数，因此后续调用复用同一个客户端。
 @lru_cache
 # 首次调用时创建，后续复用；创建客户端本身不会向模型发送问题。

@@ -35,7 +35,6 @@ def chat(request: SyncChatRequest) -> SyncChatResponse:
 
     except PermissionDeniedError as exception:
 
-        # 403：Key 本身有效，但没有该模型的调用权限
         raise CustomException(
             ResultCodeEnum.SYSTEM_ERROR,
             f"百炼 API Key 没有模型 {settings.bailian_chat_model} 的调用权限，请检查配置",

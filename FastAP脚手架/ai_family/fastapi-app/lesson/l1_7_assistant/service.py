@@ -3,7 +3,7 @@ from langchain_core.messages import AIMessage, HumanMessage
 from lesson.ll_1_chat.chat_model import get_chat_model
 from lesson.l1_7_assistant.models import AssistantMessage
 
-# 返回全部已保存消息，供刷新页面恢复。
+
 async def list_messages():
     # 按编号排序，仅返回页面需要的字段。
     return await AssistantMessage.all().order_by("id").values("id", "role", "content")
