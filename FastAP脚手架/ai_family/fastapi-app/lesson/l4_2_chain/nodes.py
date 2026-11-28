@@ -39,7 +39,7 @@ async def ask(system: str, content: str) -> str:
     })
     # 这里 ainvoke 属于聊天模型：等待“一次模型请求”的完整响应，返回含 content 和 response_metadata 的消息对象。
     # await 允许事件循环在等待网络时处理其他任务，但当前节点尚未完成，后继节点仍须等它返回并合并更新。
-    # service.py 中 app.ainvoke 属于可执行图，等待的是整张图，不能把两个同名方法当作同一层调用。
+    # server.py 中 app.ainvoke 属于可执行图，等待的是整张图，不能把两个同名方法当作同一层调用。
     response = await model.ainvoke([
         # SystemMessage 放当前任务加统一事实约束，要求模型不编造资料；这是提示词约束，不是程序已核验事实的保证。
         SystemMessage(content=system + "。只使用给定商品事实，不编造价格、折扣、销量或功效。"),
